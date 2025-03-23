@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'photoalbum.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'photodb',
-        'USER': 'Admin',
-        'PASSWORD': 'admin',
-        'HOST': 'postgresql',
-        'PORT': '5432',
+        'NAME': os.getenv('POSTGRESQL_DATABASE'),
+        'USER': os.getenv('POSTGRESQL_USER'),
+        'PASSWORD': os.getenv('POSTGRESQL_PASSWORD'),
+        'HOST': os.getenv('POSTGRESQL_SERVICE_HOST'),
+        'PORT': os.getenv('POSTGRESQL_SERVICE_PORT'),
     }
 }
 

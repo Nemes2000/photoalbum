@@ -10,6 +10,7 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 RUN python manage.py collectstatic --noinput
 
+
 # RUN python manage.py migrate
 # RUN python manage.py createsuperuser --noinput
 

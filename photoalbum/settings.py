@@ -28,8 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-default-key-change-th
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv())
-
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv())
 
 # Application definition
 
@@ -81,21 +80,21 @@ WSGI_APPLICATION = 'photoalbum.wsgi.application'
 DATABASES = {
 
     'default': {
-        #  'ENGINE': 'django.db.backends.sqlite3',
-        #  'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRESQL_DATABASE'),
-        'USER': os.getenv('POSTGRESQL_USER'),
-        'PASSWORD': os.getenv('POSTGRESQL_PASSWORD'),
-        'HOST': os.getenv('POSTGRESQL_SERVICE_HOST'),
-        'PORT': os.getenv('POSTGRESQL_SERVICE_PORT'),
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': os.getenv('POSTGRESQL_DATABASE'),
+        # 'USER': os.getenv('POSTGRESQL_USER'),
+        # 'PASSWORD': os.getenv('POSTGRESQL_PASSWORD'),
+        # 'HOST': os.getenv('POSTGRESQL_SERVICE_HOST'),
+        # 'PORT': os.getenv('POSTGRESQL_SERVICE_PORT'),
     }
 }
 
 # Use PostgreSQL in production
-# DATABASE_URL = config('DATABASE_URL', default=None)
-# if DATABASE_URL:
-#     DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+DATABASE_URL = config('DATABASE_URL', default=None)
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -140,7 +139,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(os.getenv('NFS_PATH'), 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

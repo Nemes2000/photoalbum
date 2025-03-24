@@ -92,6 +92,7 @@ DATABASES = {
     }
 }
 
+
 # Use PostgreSQL in production
 # DATABASE_URL = config('DATABASE_URL', default=None)
 # if DATABASE_URL:

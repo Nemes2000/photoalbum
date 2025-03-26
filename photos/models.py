@@ -6,8 +6,8 @@ from django.urls import reverse
 
 
 def validate_name_length(value):
-    if len(value) < 40:
-        raise ValidationError('A kép neve legalább 40 karakter hosszú kell legyen.')
+    if len(value) < 4:
+        raise ValidationError('A kép neve legalább 4 karakter hosszú kell legyen.')
 
 
 class Photo(models.Model):

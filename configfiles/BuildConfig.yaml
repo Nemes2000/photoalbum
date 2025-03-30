@@ -1,0 +1,144 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"postgresql"}]'
+    app.openshift.io/vcs-uri: 'https://github.com/Nemes2000/photoalbum.git'
+    openshift.io/generated-by: OpenShiftWebConsole
+  resourceVersion: '538157139'
+  name: photo-album
+  uid: c85c7515-919b-406e-b743-bcca0afbe5a0
+  creationTimestamp: '2025-03-24T16:32:19Z'
+  generation: 22
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: build.openshift.io/v1
+      time: '2025-03-24T17:01:53Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:app.openshift.io/connects-to': {}
+            'f:app.openshift.io/vcs-uri': {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime': {}
+            'f:app.openshift.io/runtime-version': {}
+        'f:spec':
+          'f:output':
+            'f:to': {}
+          'f:runPolicy': {}
+          'f:source':
+            'f:contextDir': {}
+            'f:git':
+              .: {}
+              'f:uri': {}
+            'f:type': {}
+          'f:strategy':
+            'f:sourceStrategy':
+              .: {}
+              'f:env': {}
+              'f:from': {}
+            'f:type': {}
+          'f:triggers': {}
+    - manager: openshift-apiserver
+      operation: Update
+      apiVersion: build.openshift.io/v1
+      time: '2025-03-29T10:46:40Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:imageChangeTriggers': {}
+          'f:lastVersion': {}
+  namespace: nemes2000-dev
+  labels:
+    app: photo-album
+    app.kubernetes.io/component: photo-album
+    app.kubernetes.io/instance: photo-album
+    app.kubernetes.io/name: photo-album
+    app.kubernetes.io/part-of: photo-album
+    app.openshift.io/runtime: python
+    app.openshift.io/runtime-version: 3.12-ubi8
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'photo-album:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'python:3.12-ubi8'
+      env:
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: database-name
+        - name: POSTGRESQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: database-user
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql
+              key: database-password
+        - name: POSTGRESQL_SERVICE_HOST
+          value: postgresql
+        - name: POSTGRESQL_SERVICE_PORT
+          value: '5432'
+        - name: ALLOWED_HOSTS
+          valueFrom:
+            secretKeyRef:
+              name: django-app
+              key: ALLOWED_HOSTS
+        - name: DEBUG
+          valueFrom:
+            secretKeyRef:
+              name: django-app
+              key: DEBUG
+        - name: NFS_PATH
+          value: /media/nfs
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/Nemes2000/photoalbum.git'
+    contextDir: /
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChange: {}
+    - type: Generic
+      generic:
+        secretReference:
+          name: photo-album-generic-webhook-secret
+    - type: GitHub
+      github:
+        secretReference:
+          name: photo-album-github-webhook-secret
+  runPolicy: Serial
+status:
+  lastVersion: 18
+  imageChangeTriggers:
+    - lastTriggeredImageID: 'image-registry.openshift-image-registry.svc:5000/openshift/python@sha256:7ca50b614fbaca1ffe115304aa3e4448a6e0a8e6dfaf90f723b6c28736e95216'
+      from:
+        namespace: openshift
+        name: 'python:3.12-ubi8'
+      lastTriggerTime: null
